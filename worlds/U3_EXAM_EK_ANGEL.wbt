@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.9694728571960474 0.22868241613236068 0.0884688177382185 0.6831857211850175
-  position 0.24969453726074742 1.0093090266049274 1.2881624863225403
+  orientation -0.11064789259927978 0.9880682232626051 0.10713650191235931 1.4919213392815331
+  position 0.6804898942435147 0.1708254336203831 0.13482597512331268
 }
 TexturedBackground {
 }
@@ -24,6 +24,12 @@ DEF OMNI_WHEELS Robot {
           device [
             RotationalMotor {
               name "wheel1"
+              maxVelocity 52.35
+              maxTorque 0.5931
+            }
+            PositionSensor {
+              name "ENCODER_1"
+              resolution 0.00523598
             }
           ]
           endPoint Solid {
@@ -287,11 +293,17 @@ DEF OMNI_WHEELS Robot {
           device [
             RotationalMotor {
               name "wheel2"
+              maxVelocity 52.35
+              maxTorque 0.5931
+            }
+            PositionSensor {
+              name "ENCODER_2"
+              resolution 0.00523598
             }
           ]
           endPoint Solid {
             translation 0 0 0.1
-            rotation 0 0 1 0.00240581
+            rotation 0 0 1 0.00240580999995935
             children [
               DEF sr1 HingeJoint {
                 jointParameters HingeJointParameters {
@@ -483,11 +495,17 @@ DEF OMNI_WHEELS Robot {
           device [
             RotationalMotor {
               name "wheel3"
+              maxVelocity 52.35
+              maxTorque 0.5931
+            }
+            PositionSensor {
+              name "ENCODER_3"
+              resolution 0.00523598
             }
           ]
           endPoint Solid {
             translation 0 0 0.1
-            rotation 0 0 1 0.00390944
+            rotation 0 0 1 0.0039094400000208316
             children [
               DEF sr1 HingeJoint {
                 jointParameters HingeJointParameters {
@@ -686,22 +704,47 @@ DEF OMNI_WHEELS Robot {
       ]
     }
     DistanceSensor {
+      translation 0.05735 0.04 0.08191
       children [
         Shape {
           appearance PBRAppearance {
+            baseColor 0.7999999999999999 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01
+          }
+        }
+      ]
+      lookupTable [
+        0 0 0
+        0.02 0 0
+        5 1659 0
+      ]
+      resolution 1
+    }
+    DistanceSensor {
+      translation 0.09961 0.04 0.008715
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.7999999999999999 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01
           }
         }
       ]
       name "distance sensor(1)"
-    }
-    DistanceSensor {
-      children [
-        Shape {
-          appearance PBRAppearance {
-          }
-        }
+      lookupTable [
+        0 0 0
+        0.02 0 0
+        5 1659 0
       ]
-      name "distance sensor(2)"
+      resolution 1
     }
   ]
   boundingObject USE BODY_TRANS
