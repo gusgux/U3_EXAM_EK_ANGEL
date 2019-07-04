@@ -30,6 +30,7 @@
  * The arguments of the main function can be specified by the
  * "controllerArgs" field of the Robot node
  */
+ int KEY;
 int main(int argc, char **argv) {
   /* necessary to initialize webots stuff */
   wb_robot_init();
@@ -45,7 +46,7 @@ int main(int argc, char **argv) {
    WbDeviceTag wheel_2 = wb_robot_get_device("wheel2");
    WbDeviceTag wheel_3 = wb_robot_get_device("wheel3");
 
-   
+   wb_keyboard_enable(TIME_STEP);
 
 
   /* main loop
@@ -69,9 +70,46 @@ int main(int argc, char **argv) {
      wb_motor_set_position(wheel_1,INFINITY);
      wb_motor_set_position(wheel_2,INFINITY);
      wb_motor_set_position(wheel_3,INFINITY);
-     wb_motor_set_velocity(wheel_1,2);
-     wb_motor_set_velocity(wheel_2,-1);
-     wb_motor_set_velocity(wheel_3,-1);
+
+
+     KEY=wb_keyboard_get_key();
+
+     switch (KEY) {
+        case WB_KEYBOARD_LEFT:{
+
+          wb_motor_set_velocity(wheel_1,2);
+          wb_motor_set_velocity(wheel_2,-1);
+          wb_motor_set_velocity(wheel_3,-1);
+        }
+        break;
+        case WB_KEYBOARD_RIGHT:{
+          wb_motor_set_velocity(wheel_1,-2);
+          wb_motor_set_velocity(wheel_2,1);
+          wb_motor_set_velocity(wheel_3,1);
+        }
+        break;
+        case WB_KEYBOARD_UP:{
+          wb_motor_set_velocity(wheel_1,0);
+          wb_motor_set_velocity(wheel_2,-1);
+          wb_motor_set_velocity(wheel_3,1);
+        }
+        break;
+        case WB_KEYBOARD_DOWN:{
+          wb_motor_set_velocity(wheel_1,0);
+          wb_motor_set_velocity(wheel_2,1);
+          wb_motor_set_velocity(wheel_3,-1);
+
+        }
+        break;
+
+      }
+
+     if (KEY==-1) {
+       wb_motor_set_velocity(wheel_1,0);
+       wb_motor_set_velocity(wheel_2,0);
+       wb_motor_set_velocity(wheel_3,0);
+
+     }
 
   };
 
