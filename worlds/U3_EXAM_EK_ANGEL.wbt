@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.11064789259927978 0.9880682232626051 0.10713650191235931 1.4919213392815331
-  position 0.6804898942435147 0.1708254336203831 0.13482597512331268
+  orientation 0.9993293133490361 0.031095915034633225 0.019338240599980943 4.63116454442258
+  position 0.03391350247438637 1.0674477849753687 0.03860633632591211
 }
 TexturedBackground {
 }
@@ -25,10 +25,9 @@ DEF OMNI_WHEELS Robot {
             RotationalMotor {
               name "wheel1"
               maxVelocity 52.35
-              maxTorque 0.5931
             }
             PositionSensor {
-              name "ENCODER_1"
+              name "Encoder1"
               resolution 0.00523598
             }
           ]
@@ -294,10 +293,9 @@ DEF OMNI_WHEELS Robot {
             RotationalMotor {
               name "wheel2"
               maxVelocity 52.35
-              maxTorque 0.5931
             }
             PositionSensor {
-              name "ENCODER_2"
+              name "Encoder2"
               resolution 0.00523598
             }
           ]
@@ -496,10 +494,9 @@ DEF OMNI_WHEELS Robot {
             RotationalMotor {
               name "wheel3"
               maxVelocity 52.35
-              maxTorque 0.5931
             }
             PositionSensor {
-              name "ENCODER_3"
+              name "Encoder3"
               resolution 0.00523598
             }
           ]
@@ -704,9 +701,10 @@ DEF OMNI_WHEELS Robot {
       ]
     }
     DistanceSensor {
-      translation 0.05735 0.06 0.08191
+      translation 0.0965925 0 0.02588
+      rotation 0 1 0 -0.6991317
       children [
-        DEF sensor2 Shape {
+        Shape {
           appearance PBRAppearance {
             baseColor 0.7999999999999999 0 0
             roughness 1
@@ -717,11 +715,6 @@ DEF OMNI_WHEELS Robot {
           }
         }
       ]
-      boundingObject USE sensor2
-      physics Physics {
-      }
-      rotationStep 0.261799
-      radarCrossSection 1
       lookupTable [
         0 0 0
         0.02 0 0
@@ -730,9 +723,10 @@ DEF OMNI_WHEELS Robot {
       resolution 1
     }
     DistanceSensor {
-      translation 0.09961 0.04 0.008715
+      translation 0.05735 0 0.08191
+      rotation 0 1 0 -0.872664
       children [
-        DEF sensor Shape {
+        Shape {
           appearance PBRAppearance {
             baseColor 0.7999999999999999 0 0
             roughness 1
@@ -744,9 +738,6 @@ DEF OMNI_WHEELS Robot {
         }
       ]
       name "distance sensor(1)"
-      boundingObject USE sensor
-      physics Physics {
-      }
       lookupTable [
         0 0 0
         0.02 0 0

@@ -10,7 +10,15 @@
  * You may need to add include files like <webots/distance_sensor.h> or
  * <webots/motor.h>, etc.
  */
-#include <webots/robot.h>
+ #include <webots/robot.h>
+ #include <webots/motor.h>
+ #include <webots/keyboard.h>
+ #include <webots/distance_sensor.h>
+ #include <webots/position_sensor.h>
+
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <string.h>
 
 /*
  * You may want to add macros here.
@@ -33,6 +41,13 @@ int main(int argc, char **argv) {
    *  WbDeviceTag my_actuator = wb_robot_get_device("my_actuator");
    */
 
+   WbDeviceTag wheel_1 = wb_robot_get_device("wheel1");
+   WbDeviceTag wheel_2 = wb_robot_get_device("wheel2");
+   WbDeviceTag wheel_3 = wb_robot_get_device("wheel3");
+
+   
+
+
   /* main loop
    * Perform simulation steps of TIME_STEP milliseconds
    * and leave the loop when the simulation is over
@@ -49,7 +64,15 @@ int main(int argc, char **argv) {
     /*
      * Enter here functions to send actuator commands, like:
      * wb_motor_set_position(my_actuator, 10.0);
+
      */
+     wb_motor_set_position(wheel_1,INFINITY);
+     wb_motor_set_position(wheel_2,INFINITY);
+     wb_motor_set_position(wheel_3,INFINITY);
+     wb_motor_set_velocity(wheel_1,2);
+     wb_motor_set_velocity(wheel_2,-1);
+     wb_motor_set_velocity(wheel_3,-1);
+
   };
 
   /* Enter your cleanup code here */
