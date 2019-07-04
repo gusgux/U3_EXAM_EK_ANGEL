@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.9993293133490361 0.031095915034633225 0.019338240599980943 4.63116454442258
-  position 0.03391350247438637 1.0674477849753687 0.03860633632591211
+  orientation 0.9987608184900577 0.04933955452343849 0.006514277281369207 5.3609170774534185
+  position -0.1011899136406772 3.908412125875796 3.0938506770170835
 }
 TexturedBackground {
 }
@@ -750,4 +750,23 @@ DEF OMNI_WHEELS Robot {
   physics Physics {
   }
   controller "U3_EXAM_EK_TUN"
+}
+Solid {
+  translation 1.5 0.2 1.5
+  rotation 0 1 0 0.78539
+  children [
+    DEF square Shape {
+      appearance PBRAppearance {
+        baseColor 0.12549 0.290196 0.529412
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.4 0.4 0.4
+      }
+    }
+  ]
+  boundingObject USE square
+  physics Physics {
+  }
 }

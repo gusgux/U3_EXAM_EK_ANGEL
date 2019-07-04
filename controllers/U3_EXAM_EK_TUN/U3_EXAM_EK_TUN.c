@@ -19,11 +19,14 @@
  #include <stdlib.h>
  #include <stdio.h>
  #include <string.h>
+ #include <math.h>
 
 /*
  * You may want to add macros here.
  */
 #define TIME_STEP 64
+#define AUTONOMOUS 0
+#define MANUAL 1
 
 /*
  * This is the main program.
@@ -31,6 +34,13 @@
  * "controllerArgs" field of the Robot node
  */
  int KEY;
+ double encoder1_value;
+ double encoder2_value;
+ double encoder3_value;
+ double degrees=1.727875959;
+ double encoderpos;
+ double value_angle;
+ int MODE=0;
 int main(int argc, char **argv) {
   /* necessary to initialize webots stuff */
   wb_robot_init();
@@ -46,7 +56,14 @@ int main(int argc, char **argv) {
    WbDeviceTag wheel_2 = wb_robot_get_device("wheel2");
    WbDeviceTag wheel_3 = wb_robot_get_device("wheel3");
 
+   WbDeviceTag encoder_1=wb_robot_get_device("Encoder1");
+   WbDeviceTag encoder_2=wb_robot_get_device("Encoder2");
+   WbDeviceTag encoder_3=wb_robot_get_device("Encoder3");
+
    wb_keyboard_enable(TIME_STEP);
+   wb_position_sensor_enable(encoder_1,TIME_STEP);
+   wb_position_sensor_enable(encoder_2,TIME_STEP);
+   wb_position_sensor_enable(encoder_3,TIME_STEP);
 
 
   /* main loop
@@ -71,49 +88,113 @@ int main(int argc, char **argv) {
      wb_motor_set_position(wheel_2,INFINITY);
      wb_motor_set_position(wheel_3,INFINITY);
 
-
+     encoder1_value=wb_position_sensor_get_value(encoder_1);
+     encoder2_value=wb_position_sensor_get_value(encoder_2);
+     encoder3_value=wb_position_sensor_get_value(encoder_3);
      KEY=wb_keyboard_get_key();
 
-     switch (KEY) {
-        case WB_KEYBOARD_LEFT:{
+     if (KEY=='G')
+     MODE=0;
+     else if (KEY=='W')
+     MODE=1;
 
-          wb_motor_set_velocity(wheel_1,2);
-          wb_motor_set_velocity(wheel_2,-1);
-          wb_motor_set_velocity(wheel_3,-1);
-        }
-        break;
-        case WB_KEYBOARD_RIGHT:{
-          wb_motor_set_velocity(wheel_1,-2);
-          wb_motor_set_velocity(wheel_2,1);
-          wb_motor_set_velocity(wheel_3,1);
-        }
-        break;
-        case WB_KEYBOARD_UP:{
-          wb_motor_set_velocity(wheel_1,0);
-          wb_motor_set_velocity(wheel_2,-1);
-          wb_motor_set_velocity(wheel_3,1);
-        }
-        break;
-        case WB_KEYBOARD_DOWN:{
-          wb_motor_set_velocity(wheel_1,0);
-          wb_motor_set_velocity(wheel_2,1);
-          wb_motor_set_velocity(wheel_3,-1);
+if(MODE==AUTONOMOUS ) {
+  wb_motor_set_velocity(wheel_1,-2);
+  wb_motor_set_velocity(wheel_2,2);
+  wb_motor_set_velocity(wheel_3,0);
+}
+if(MODE==MANUAL) {
+  switch (KEY) {
+     case WB_KEYBOARD_LEFT:{
 
-        }
-        break;
+       wb_motor_set_velocity(wheel_1,2);
+       wb_motor_set_velocity(wheel_2,-1);
+       wb_motor_set_velocity(wheel_3,-1);
+     }
+     break;
+     case WB_KEYBOARD_RIGHT:{
+       wb_motor_set_velocity(wheel_1,-2);
+       wb_motor_set_velocity(wheel_2,1);
+       wb_motor_set_velocity(wheel_3,1);
+     }
+     break;
+     case WB_KEYBOARD_UP:{
+       wb_motor_set_velocity(wheel_1,0);
+       wb_motor_set_velocity(wheel_2,-1);
+       wb_motor_set_velocity(wheel_3,1);
+     }
+     break;
+     case WB_KEYBOARD_DOWN:{
+       wb_motor_set_velocity(wheel_1,0);
+       wb_motor_set_velocity(wheel_2,1);
+       wb_motor_set_velocity(wheel_3,-1);
 
-      }
+     }
+     break;
 
-     if (KEY==-1) {
+     case 'A': {
+
+       value_angle=fabs(encoder1_value);
+
+       if(value_angle>degrees) {
        wb_motor_set_velocity(wheel_1,0);
        wb_motor_set_velocity(wheel_2,0);
        wb_motor_set_velocity(wheel_3,0);
 
      }
+     else if (value_angle<degrees){
+
+       wb_motor_set_velocity(wheel_1,-2);
+       wb_motor_set_velocity(wheel_2,-2);
+       wb_motor_set_velocity(wheel_3,-2);
+     }
+
+     }
+     break;
+     case 'S': {
+
+       value_angle=fabs(encoder1_value);
+
+       if(value_angle>degrees) {
+       wb_motor_set_velocity(wheel_1,0);
+       wb_motor_set_velocity(wheel_2,0);
+       wb_motor_set_velocity(wheel_3,0);
+       }
+       else if (value_angle<degrees){
+
+       wb_motor_set_velocity(wheel_1,2);
+       wb_motor_set_velocity(wheel_2,2);
+       wb_motor_set_velocity(wheel_3,2);
+       }
+
+     }
+     break;
+
+   }
+
+
+   if (KEY==-1) {
+     wb_motor_set_velocity(wheel_1,0);
+     wb_motor_set_velocity(wheel_2,0);
+     wb_motor_set_velocity(wheel_3,0);
+  }
+
+}
+
+
+     printf("sensor encoder1 %lf\n",encoder1_value );
+     printf("sensor encoder2 %lf\n",encoder2_value );
+     printf("sensor encoder3 %lf\n",encoder3_value );
+     printf("angle %lf \n",value_angle );
+     printf("angle %i \n",KEY );
+
 
   };
 
   /* Enter your cleanup code here */
+
+
+
 
   /* This is necessary to cleanup webots resources */
   wb_robot_cleanup();
