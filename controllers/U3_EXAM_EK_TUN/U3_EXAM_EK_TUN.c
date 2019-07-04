@@ -40,6 +40,7 @@
  double degrees=1.727875959;
  double encoderpos;
  double value_angle;
+ float ultra_sensor1,ultra_sensor2;
  int MODE=0;
 int main(int argc, char **argv) {
   /* necessary to initialize webots stuff */
@@ -60,7 +61,14 @@ int main(int argc, char **argv) {
    WbDeviceTag encoder_2=wb_robot_get_device("Encoder2");
    WbDeviceTag encoder_3=wb_robot_get_device("Encoder3");
 
+   WbDeviceTag ultrasonic1= wb_robot_get_device("distance_sensor1");
+   WbDeviceTag ultrasonic2= wb_robot_get_device("distance_sensor2");
+
+   wb_distance_sensor_enable(ultrasonic1,TIME_STEP);
+   wb_distance_sensor_enable(ultrasonic2,TIME_STEP);
+
    wb_keyboard_enable(TIME_STEP);
+
    wb_position_sensor_enable(encoder_1,TIME_STEP);
    wb_position_sensor_enable(encoder_2,TIME_STEP);
    wb_position_sensor_enable(encoder_3,TIME_STEP);
@@ -99,9 +107,28 @@ int main(int argc, char **argv) {
      MODE=1;
 
 if(MODE==AUTONOMOUS ) {
+
+  ultra_sensor1=wb_distance_sensor_get_value(ultrasonic1)/(1659*.2);
+  ultra_sensor2=wb_distance_sensor_get_value(ultrasonic2)/(1659*.2);
+
   wb_motor_set_velocity(wheel_1,-2);
   wb_motor_set_velocity(wheel_2,2);
-  wb_motor_set_velocity(wheel_3,0);
+  wb_motor_set_velocity(wheel_3,0);}
+
+  if(ultra_sensor1<=0.4 || ultra_sensor2<=0.4){
+  if(ultra_sensor1<ultra_sensor2){
+    wb_motor_set_velocity(wheel_1,0);
+    wb_motor_set_velocity(wheel_2,0);
+    wb_motor_set_velocity(wheel_3,0);
+  }
+  else if (ultra_sensor2<ultrasonic1){
+    wb_motor_set_velocity(wheel_1,0);
+    wb_motor_set_velocity(wheel_2,0);
+    wb_motor_set_velocity(wheel_3,0);
+  }
+  else {
+
+}
 }
 if(MODE==MANUAL) {
   switch (KEY) {
@@ -187,7 +214,8 @@ if(MODE==MANUAL) {
      printf("sensor encoder3 %lf\n",encoder3_value );
      printf("angle %lf \n",value_angle );
      printf("angle %i \n",KEY );
-
+     printf("ultra1 %f \n",ultra_sensor1);
+     printf("ultra2 %f \n",ultra_sensor2);
 
   };
 

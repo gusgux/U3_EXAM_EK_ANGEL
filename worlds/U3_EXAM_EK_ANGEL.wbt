@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.9987608184900577 0.04933955452343849 0.006514277281369207 5.3609170774534185
-  position -0.1011899136406772 3.908412125875796 3.0938506770170835
+  orientation 0.8068193631683191 -0.5206771681779788 -0.2791734259467203 5.163588018460126
+  position 2.009970727480088 3.2812524841202486 2.7778996089568047
 }
 TexturedBackground {
 }
@@ -715,6 +715,7 @@ DEF OMNI_WHEELS Robot {
           }
         }
       ]
+      name "distance_sensor1"
       lookupTable [
         0 0 0
         0.02 0 0
@@ -737,7 +738,7 @@ DEF OMNI_WHEELS Robot {
           }
         }
       ]
-      name "distance sensor(1)"
+      name "distance_sensor2"
       lookupTable [
         0 0 0
         0.02 0 0
@@ -748,25 +749,24 @@ DEF OMNI_WHEELS Robot {
   ]
   boundingObject USE BODY_TRANS
   physics Physics {
+    density 800
   }
   controller "U3_EXAM_EK_TUN"
 }
 Solid {
-  translation 1.5 0.2 1.5
+  translation 1.5 0.2 1.2
   rotation 0 1 0 0.78539
   children [
-    DEF square Shape {
+    Shape {
       appearance PBRAppearance {
         baseColor 0.12549 0.290196 0.529412
         roughness 1
         metalness 0
       }
-      geometry Box {
+      geometry DEF square Box {
         size 0.4 0.4 0.4
       }
     }
   ]
   boundingObject USE square
-  physics Physics {
-  }
 }
